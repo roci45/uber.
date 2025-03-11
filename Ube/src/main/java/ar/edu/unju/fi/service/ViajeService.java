@@ -24,8 +24,7 @@ public class ViajeService {
         
         Conductor conductor = conductorRepository.findById(viajeDTO.getConductorId())
                 .orElseThrow(() -> new RuntimeException("Conductor no encontrado"));
-
-        /
+        
         double costoBase = calcularCostoBase(viajeDTO.getTipo());
         double costoFinal = costoBase * (1 + conductor.getTipoAutomovil().getTarifaAdicional());
         viajeDTO.setCosto(costoFinal);

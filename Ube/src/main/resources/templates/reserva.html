@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservar Viaje</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Reservar Viaje</h1>
+        <form th:action="@{/viajes/reservar}" th:object="${viaje}" method="post">
+            <input type="hidden" th:field="*{conductorId}">
+            <div class="mb-3">
+                <label for="tipo" class="form-label">Tipo de Viaje:</label>
+                <select class="form-control" id="tipo" th:field="*{tipo}" required>
+                    <option value="CORTA">Corta Distancia</option>
+                    <option value="MEDIA">Media Distancia</option>
+                    <option value="LARGA">Larga Distancia</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">Reservar</button>
+        </form>
+    </div>
+</body>
+</html>

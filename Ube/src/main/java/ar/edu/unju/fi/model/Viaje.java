@@ -26,7 +26,3 @@ public class Viaje {
     @JoinColumn(name = "conductor_id")
     private Conductor conductor;
 }
-
-enum TipoViaje {
-    CORTA, MEDIA, LARGA
-}
