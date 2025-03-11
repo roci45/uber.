@@ -20,7 +20,7 @@
         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Inicio</a>
+        <a class="nav-link" th:href="@{/}">Inicio</a>
       </li>
     </ul>
   </div>
@@ -39,13 +39,13 @@
                 </select>
             </div>
             <div class="mb-3">
-                <label for="conductorId" class="form-label">Conductor</label>
-                <select class="form-control" id="conductorId" th:field="*{conductorId}" required>
-                    <option th:each="conductor : ${conductores}" 
-                            th:value="${conductor.id}" 
-                            th:text="${conductor.nombre}"></option>
-                </select>
-            </div>
+    <label for="conductorId" class="form-label">Conductor</label>
+    <select class="form-control" id="conductorId" th:field="*{conductorId}" required>
+        <option th:each="conductor : ${conductores}" 
+                th:value="${conductor.id}" 
+                th:text="${conductor.nombre}"></option>
+    </select>
+</div>
             <div class="mb-3">
                 <label for="costo" class="form-label">Costo Calculado</label>
                 <input type="text" class="form-control" id="costo" th:field="*{costo}" readonly>

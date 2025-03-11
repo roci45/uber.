@@ -26,17 +26,21 @@ public class ViajeController {
     @GetMapping("/nuevo")
     public String mostrarFormularioNuevo(Model model) {
         model.addAttribute("viaje", new ViajeDTO());
-        model.addAttribute("conductores", viajeService.obtenerConductores()); // Obtener lista de conductores
+        model.addAttribute("conductores", viajeService.obtenerConductoresDisponibles()); // Obtener lista de conductores disponibles
         return "nuevoviaje"; // Nombre de la vista para crear un nuevo viaje
     }
 
-    // Método para guardar un nuevo viaje
     @PostMapping("/guardar")
-    public String guardarViaje(@ModelAttribute("viaje") ViajeDTO viajeDTO) {
-        viajeService.save(viajeDTO);
-        return "redirect:/viaje"; // Redirigir a la lista de viajes después de guardar
+    public String guardarViaje(@ModelAttribute("viaje") ViajeDTO viajeDTO, Model model) {
+        try {
+            viajeService.crearViaje(viajeDTO); // Usar el método crearViaje
+            return "redirect:/viaje"; // Redirigir a la lista de viajes después de guardar
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage()); // Mensaje de error
+            model.addAttribute("conductores", viajeService.obtenerConductoresDisponibles()); // Obtener lista de conductores disponibles
+            return "nuevoviaje"; // Volver al formulario con el mensaje de error
+        }
     }
-
     // Método para eliminar un viaje
     @GetMapping("/eliminar/{id}")
     public String eliminarViaje(@PathVariable Long id) {
@@ -44,17 +48,16 @@ public class ViajeController {
         return "redirect:/viaje"; // Redirigir a la lista de viajes después de eliminar
     }
 
-    // Método para reservar un viaje (opcional, si lo necesitas)
-    @GetMapping("/reservar/{conductorId}")
-    public String mostrarFormularioReserva(@PathVariable Long conductorId, Model model) {
-        model.addAttribute("viaje", new ViajeDTO());
-        model.addAttribute("conductorId", conductorId);
-        return "reservaviaje"; // Nombre de la vista para reservar un viaje
+    // Método para cancelar un viaje
+    @GetMapping("/cancelar/{id}")
+    public String cancelarViaje(@PathVariable Long id) {
+        viajeService.cancelarViaje(id);
+        return "redirect:/viaje"; // Redirigir a la lista de viajes después de cancelar
     }
-
+    
     @PostMapping("/reservar")
     public String reservarViaje(@ModelAttribute("viaje") ViajeDTO viajeDTO) {
-        viajeService.reservarViaje(viajeDTO);
+        viajeService.crearViaje(viajeDTO);
         return "redirect:/conductores"; // Redirigir a la lista de conductores después de reservar
     }
 }
