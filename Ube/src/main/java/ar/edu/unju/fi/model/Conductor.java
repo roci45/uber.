@@ -9,7 +9,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,8 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Data
-@Entity
-@Table(name = "conductores") 
+@Entity(name = "conductores") 
 public class Conductor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

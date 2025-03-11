@@ -1,6 +1,5 @@
 package ar.edu.unju.fi.service;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +10,9 @@ import ar.edu.unju.fi.model.Viaje;
 import ar.edu.unju.fi.repository.ConductorRepository;
 import ar.edu.unju.fi.repository.ViajeRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ViajeService {
 
@@ -20,21 +22,53 @@ public class ViajeService {
     @Autowired
     private ConductorRepository conductorRepository;
 
-    public ViajeDTO reservarViaje(ViajeDTO viajeDTO) {
-        
+    // Método para obtener todos los viajes
+    public List<ViajeDTO> findAll() {
+        return viajeRepository.findAll().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Método para guardar un viaje
+    public void save(ViajeDTO viajeDTO) {
         Conductor conductor = conductorRepository.findById(viajeDTO.getConductorId())
                 .orElseThrow(() -> new RuntimeException("Conductor no encontrado"));
-        
+
         double costoBase = calcularCostoBase(viajeDTO.getTipo());
         double costoFinal = costoBase * (1 + conductor.getTipoAutomovil().getTarifaAdicional());
         viajeDTO.setCosto(costoFinal);
-        
+
+        Viaje viaje = convertToEntity(viajeDTO);
+        viaje.setConductor(conductor);
+
+        viajeRepository.save(viaje);
+    }
+
+    // Método para eliminar un viaje por su ID
+    public void delete(Long id) {
+        viajeRepository.deleteById(id);
+    }
+
+    // Método para reservar un viaje
+    public ViajeDTO reservarViaje(ViajeDTO viajeDTO) {
+        Conductor conductor = conductorRepository.findById(viajeDTO.getConductorId())
+                .orElseThrow(() -> new RuntimeException("Conductor no encontrado"));
+
+        double costoBase = calcularCostoBase(viajeDTO.getTipo());
+        double costoFinal = costoBase * (1 + conductor.getTipoAutomovil().getTarifaAdicional());
+        viajeDTO.setCosto(costoFinal);
+
         Viaje viaje = convertToEntity(viajeDTO);
         viaje.setConductor(conductor);
 
         viajeRepository.save(viaje);
 
         return convertToDTO(viaje);
+    }
+
+    // Método para obtener la lista de conductores
+    public List<Conductor> obtenerConductores() {
+        return conductorRepository.findAll();
     }
 
     // Método para calcular el costo base según el tipo de viaje
@@ -69,5 +103,4 @@ public class ViajeService {
         dto.setConductorId(viaje.getConductor().getId());
         return dto;
     }
-
 }

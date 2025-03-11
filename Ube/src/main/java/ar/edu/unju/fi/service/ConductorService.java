@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import ar.edu.unju.fi.dto.ConductorDTO;
 import ar.edu.unju.fi.model.Conductor;
 import ar.edu.unju.fi.repository.ConductorRepository;
-
 @Service
 public class ConductorService {
 
@@ -18,23 +17,22 @@ public class ConductorService {
 
     public List<ConductorDTO> findAllActive() {
         return conductorRepository.findByActivoTrue().stream()
-                .map(this::convertToDTO) // Convertir manualmente
+                .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
     public ConductorDTO save(ConductorDTO conductorDTO) {
-        Conductor conductor = convertToEntity(conductorDTO); // Convertir manualmente
+        Conductor conductor = convertToEntity(conductorDTO);
         return convertToDTO(conductorRepository.save(conductor));
     }
 
     public void delete(Long id) {
         Conductor conductor = conductorRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Conductor no encontrado"));
-        conductor.setActivo(false);
+        conductor.setActivo(false); // Cambia el estado a inactivo
         conductorRepository.save(conductor);
     }
 
-    // Método para convertir de Conductor a ConductorDTO
     private ConductorDTO convertToDTO(Conductor conductor) {
         ConductorDTO dto = new ConductorDTO();
         dto.setId(conductor.getId());
@@ -45,7 +43,6 @@ public class ConductorService {
         return dto;
     }
 
-    // Método para convertir de ConductorDTO a Conductor
     private Conductor convertToEntity(ConductorDTO dto) {
         Conductor conductor = new Conductor();
         conductor.setId(dto.getId());

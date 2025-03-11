@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Nuevo Viaje</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Ubeer</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Inicio</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+    <div class="container">
+        <h1 class="my-4">Crear Nuevo Viaje</h1>
+        <form th:action="@{/viaje/guardar}" th:object="${viaje}" method="post">
+            <div class="mb-3">
+                <label for="tipo" class="form-label">Tipo de Viaje</label>
+                <select class="form-control" id="tipo" th:field="*{tipo}" required>
+                    <option th:each="tipo : ${T(ar.edu.unju.fi.model.TipoViaje).values()}" 
+                            th:value="${tipo}" 
+                            th:text="${tipo}"></option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="conductorId" class="form-label">Conductor</label>
+                <select class="form-control" id="conductorId" th:field="*{conductorId}" required>
+                    <option th:each="conductor : ${conductores}" 
+                            th:value="${conductor.id}" 
+                            th:text="${conductor.nombre}"></option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="costo" class="form-label">Costo Calculado</label>
+                <input type="text" class="form-control" id="costo" th:field="*{costo}" readonly>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a th:href="@{/viaje}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+
+    <script>
+        // Calcular el costo automáticamente al seleccionar el tipo de viaje
+        document.getElementById('tipo').addEventListener('change', function() {
+            const tipoViaje = this.value;
+            let costoBase;
+
+            switch (tipoViaje) {
+                case 'CORTA':
+                    costoBase = 7000;
+                    break;
+                case 'MEDIA':
+                    costoBase = 10000;
+                    break;
+                case 'LARGA':
+                    costoBase = 20000;
+                    break;
+                default:
+                    costoBase = 0;
+            }
+
+            // Mostrar el costo base en el campo de costo
+            document.getElementById('costo').value = costoBase;
+        });
+    </script>
+</body>
+</html>
