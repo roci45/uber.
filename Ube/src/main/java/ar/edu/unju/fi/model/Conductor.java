@@ -3,6 +3,8 @@ package ar.edu.unju.fi.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,6 +34,7 @@ public class Conductor {
     private String nombre;
     
     @Column(name = "fecha_nacimiento", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fechaNacimiento;
 
     @Enumerated(EnumType.STRING)

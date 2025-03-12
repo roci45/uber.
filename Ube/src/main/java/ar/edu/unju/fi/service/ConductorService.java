@@ -87,7 +87,7 @@ public class ConductorService {
     }
     
     public List<ConductorDTO> findConductoresDisponibles() {
-        return conductorRepository.findByActivoTrue().stream()
+        return conductorRepository.findByDisponibleTrue().stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }

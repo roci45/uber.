@@ -9,5 +9,5 @@ import ar.edu.unju.fi.model.Conductor;
 
 @Repository
 public interface ConductorRepository extends JpaRepository<Conductor, Long> {
-    List<Conductor> findByActivoTrue();
+	List<Conductor> findByDisponibleTrue(); 
 }

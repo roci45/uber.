@@ -36,19 +36,36 @@
   </div>
 </nav>
 
-
-    <div class="container">
+ <div class="container">
         <h1 class="my-4">Lista de Viajes</h1>
         <a th:href="@{/viaje/nuevo}" class="btn btn-success mb-3">Crear Nuevo Viaje</a>
+
+        <!-- Mensajes de éxito o error -->
+        <div th:if="${mensaje}" class="alert alert-success">
+            <p th:text="${mensaje}"></p>
+        </div>
+        <div th:if="${error}" class="alert alert-danger">
+            <p th:text="${error}"></p>
+        </div>
+
+        <!-- Lista de viajes -->
         <div class="row">
-            <div th:each="viaje : ${viajes}">
-    <p>ID: <span th:text="${viaje.id}"></span></p>
-    <p>Tipo: <span th:text="${viaje.tipo}"></span></p>
-    <p>Costo: <span th:text="${viaje.costo}"></span></p>
-    <p>Conductor ID: <span th:text="${viaje.conductorId}"></span></p>
-                   <a th:href="@{/viaje/cancelar/{id}(id=${conductor.id})}" class="btn btn-danger">Eliminar</a>
-    
-</div>
+            <div th:each="viaje : ${viajes}" class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Viaje ID: <span th:text="${viaje.id}"></span></h5>
+                        <p class="card-text">
+                            <strong>Tipo:</strong> <span th:text="${viaje.tipo}"></span><br>
+                            <strong>Costo:</strong> <span th:text="${viaje.costo}"></span><br>
+                            <strong>Conductor ID:</strong> <span th:text="${viaje.conductorId}"></span>
+                        </p>
+                        <!-- Botón para cancelar el viaje -->
+                        <a th:href="@{/viaje/cancelar/{id}(id=${viaje.id})}" class="btn btn-danger">Cancelar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
         </div>
     </div>
 </body>
