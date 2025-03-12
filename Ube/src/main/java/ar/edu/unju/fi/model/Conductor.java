@@ -14,6 +14,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,7 +35,8 @@ public class Conductor {
     private String nombre;
     
     @Column(name = "fecha_nacimiento", nullable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")   
+    @Past (message="La fecha de nacimiento debe ser una fecha pasada")
     private LocalDate fechaNacimiento;
 
     @Enumerated(EnumType.STRING)
