@@ -72,7 +72,7 @@ public class ViajeService {
         viaje.setId(dto.getId());
         viaje.setTipo(dto.getTipo());
         viaje.setCosto(dto.getCosto());
-        viaje.setEstado(true); // Asegúrate de que el viaje esté activo
+        viaje.setEstado(true); 
 
         Conductor conductor = conductorRepository.findById(dto.getConductorId())
                 .orElseThrow(() -> new RuntimeException("Conductor no encontrado"));
