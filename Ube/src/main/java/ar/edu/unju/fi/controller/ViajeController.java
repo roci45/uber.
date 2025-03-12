@@ -31,7 +31,7 @@ public class ViajeController {
     // Método para mostrar el formulario de creación de un nuevo viaje
     @GetMapping("/nuevo")
     public String mostrarFormularioNuevo(Model model) {
-        model.addAttribute("viajeDTO", new ViajeDTO()); // Asegúrate de enviar un nuevo ViajeDTO
+        model.addAttribute("viajeDTO", new ViajeDTO()); 
         model.addAttribute("conductores", conductorService.findConductoresDisponibles()); // Lista de conductores
         model.addAttribute("tipos", List.of("Corta", "Media", "Larga")); // Lista de tipos de viaje
         return "nuevoviaje";
@@ -44,13 +44,13 @@ public class ViajeController {
             // Llama al servicio para crear el viaje
             ViajeDTO viajeCreado = viajeService.crearViaje(viajeDTO);
 
-            // Agrega un mensaje de éxito
+    
             redirectAttributes.addFlashAttribute("mensaje", "Viaje creado exitosamente con un costo de: " + viajeCreado.getCosto());
 
             // Redirige a la lista de viajes
             return "redirect:/viaje";
         } catch (IllegalArgumentException e) {
-            // Si hay un error, agrega el mensaje de error al modelo
+           
             model.addAttribute("error", e.getMessage());
 
             // Vuelve a cargar los datos necesarios para el formulario
@@ -88,7 +88,7 @@ public class ViajeController {
     @PostMapping("/reservar")
     public String reservarViaje(@ModelAttribute("viajeDTO") ViajeDTO viajeDTO, RedirectAttributes redirectAttributes) {
         try {
-            ViajeDTO viajeCreado = viajeService.crearViaje(viajeDTO); // Usar el método crearViaje
+            ViajeDTO viajeCreado = viajeService.crearViaje(viajeDTO); 
             redirectAttributes.addFlashAttribute("mensaje", "Viaje reservado exitosamente con un costo de: " + viajeCreado.getCosto());
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage()); // Mensaje de error
